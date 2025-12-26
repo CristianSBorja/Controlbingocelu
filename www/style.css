@@ -12,9 +12,13 @@
     --border-color: #424242;
   }
   
+  * {
+    box-sizing: border-box;
+  }
+
   body {
     font-family: 'Poppins', sans-serif;
-    background-image: url("fondo-gamer.jpeg");
+    background-image: url("assets/fondo-gamer.jpeg");
     background-size: 300px;
     color: var(--text-color);
     display: flex;
@@ -23,7 +27,12 @@
     min-height: 100vh;
     margin: 0;
     padding: 20px;
-    box-sizing: border-box;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    -webkit-user-select: none; /* Safari/Chrome */
+    user-select: none; /* Estándar */
   }
   
   .container {
@@ -74,15 +83,19 @@
     transition: border-color 0.3s, box-shadow 0.3s;
     text-align: center;
     font-weight: 900; /* Aumentado al máximo para mayor visibilidad */
+    -webkit-user-select: text; /* Permitir escribir en inputs */
+    user-select: text;
   }
   
   textarea {
-    width: 320px; /* Aumentado */
+    width: 100%;
+    max-width: 320px;
     height: 140px; /* Aumentado */
   }
   
   input[type="number"] {
-    width: 180px; /* Aumentado */
+    width: 100%;
+    max-width: 180px;
     font-size: 1.5rem; /* Aumentado */
   }
   
@@ -233,6 +246,8 @@
   
   .carton .fila {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
   }
   
   .numero {
@@ -438,7 +453,8 @@
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
 }
 
-#cartonGanador .remove-carton-btn {
+#cartonGanador .remove-carton-btn,
+#cartonGanador .edit-carton-btn {
     display: none; /* Ocultar el botón de eliminar en el modal */
 }
 
@@ -450,6 +466,28 @@
 @keyframes slideIn {
     from { transform: translateY(-50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+/* Ajustes para móviles */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 15px 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .numero {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+        margin: 2px;
+    }
 }
 
   

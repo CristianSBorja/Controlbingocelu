@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+.DS_Store
+
+# Android - Ignorar archivos de compilación y configuración local
+android/.gradle/
+android/local.properties
+android/*/build/
+android/captures/
+android/.idea/
+android/app/src/main/assets/public
+*.apk
+*.aab
+
+# Sistema
+Thumbs.db
