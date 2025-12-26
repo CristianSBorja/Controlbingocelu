@@ -7,11 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-  <h1>🎱 Controlador de Bingo Bormet</h1>
+  <header class="app-header">
+    <h1><i class="fas fa-gamepad"></i> Bingo Bormet</h1>
+  </header>
 
   <div class="controls-section">
     <div class="control-group">
@@ -21,14 +24,14 @@
 3 18 33 48 63
 4 19 34 49 64
 5 20 35 50 65"></textarea>
-      <button onclick="agregarCarton()">Agregar Cartón</button>
+      <button onclick="agregarCarton()"><i class="fas fa-plus-circle"></i> Agregar Cartón</button>
     </div>
     <div class="control-group">
       <h3>Juego</h3>
       <input type="number" id="numeroCantado" placeholder="Ej: 42">
       <div class="juego-botones">
-        <button onclick="cantarNumero()" id="btnCantar">Cantar Número</button>
-        <button onclick="limpiarJuego()" class="secondary-button">Nuevo Juego</button>
+        <button onclick="cantarNumero()" id="btnCantar"><i class="fas fa-microphone"></i> Cantar Número</button>
+        <button onclick="limpiarJuego()" class="secondary-button"><i class="fas fa-sync-alt"></i> Nuevo Juego</button>
       </div>
     </div>
   </div>
@@ -56,11 +59,15 @@
   <div id="bingoModal" class="modal">
     <div class="modal-content">
       <span class="close-button" onclick="cerrarModal()">&times;</span>
-      <h2 id="modalTitle">🎉 ¡BINGO! 🎉</h2>
+      <h2 id="modalTitle"><i class="fas fa-trophy"></i> ¡BINGO!</h2>
       <p id="modalMessage">El siguiente cartón ha completado el juego:</p>
       <div id="cartonGanador"></div>
     </div>
   </div>
+
+  <footer class="app-footer">
+    <p>Controlador de Bingo v1.0</p>
+  </footer>
 
 </div>
 
@@ -149,7 +156,7 @@
 
         let removeBtn = document.createElement('button');
         removeBtn.className = 'remove-numero-btn';
-        removeBtn.innerHTML = '&times;';
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
         removeBtn.title = `Eliminar ${num}`;
         removeBtn.onclick = () => eliminarNumeroCantado(num);
         numDiv.appendChild(removeBtn);
@@ -168,14 +175,14 @@
         // Botón para editar el cartón
         let editBtn = document.createElement('button');
         editBtn.className = 'edit-carton-btn';
-        editBtn.innerHTML = '✏️';
+        editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         editBtn.title = 'Editar cartón';
         editBtn.onclick = () => mostrarEditorCarton(idx);
         cartonDiv.appendChild(editBtn);
         // Botón para eliminar el cartón
         let removeBtn = document.createElement('button');
         removeBtn.className = 'remove-carton-btn';
-        removeBtn.innerHTML = '&times;';
+        removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
         removeBtn.title = 'Eliminar cartón';
         removeBtn.onclick = () => eliminarCarton(idx);
         cartonDiv.appendChild(removeBtn);
@@ -209,7 +216,7 @@
           cartonDiv.classList.add('ganador');
           cartonDiv.insertAdjacentHTML('beforeend', '<p class="mensaje-ganador"><b>🎉 ¡BINGO!</b></p>');          
           if (!carton._bingoCantado) {
-            mostrarModal('🎉 ¡BINGO! 🎉', 'El siguiente cartón ha completado el juego:', cartonDiv.cloneNode(true));
+            mostrarModal('<i class="fas fa-trophy"></i> ¡BINGO! <i class="fas fa-trophy"></i>', 'El siguiente cartón ha completado el juego:', cartonDiv.cloneNode(true));
             carton._bingoCantado = true;
             carton._lineaCantada = true; // Evitar que salga línea si ya hizo bingo
             juegoTerminado = true;
@@ -219,7 +226,7 @@
           cartonDiv.insertAdjacentHTML('beforeend', '<p class="mensaje-ganador"><b>✔️ ¡Línea!</b></p>');
           
           if (!carton._lineaCantada && !juegoTerminado) {
-             mostrarModal('✔️ ¡LÍNEA! ✔️', '¡Línea completada en este cartón!', cartonDiv.cloneNode(true));
+             mostrarModal('<i class="fas fa-star"></i> ¡LÍNEA! <i class="fas fa-star"></i>', '¡Línea completada en este cartón!', cartonDiv.cloneNode(true));
              carton._lineaCantada = true;
           }
         }
@@ -237,8 +244,8 @@
         cartonDiv.innerHTML = `
             <textarea class="editor-carton">${cartonString}</textarea>
             <div class="editor-botones">
-                <button onclick="guardarEdicion(${idx})">Guardar</button>
-                <button onclick="renderCartones()" class="secondary-button">Cancelar</button>
+                <button onclick="guardarEdicion(${idx})"><i class="fas fa-save"></i> Guardar</button>
+                <button onclick="renderCartones()" class="secondary-button"><i class="fas fa-times"></i> Cancelar</button>
             </div>
         `;
         cartonDiv.classList.add('editando');
@@ -258,7 +265,7 @@
       const mensajeEl = document.getElementById('modalMessage');
       const contenidoCarton = document.getElementById('cartonGanador');
       
-      tituloEl.textContent = titulo;
+      tituloEl.innerHTML = titulo; // Cambiado a innerHTML para soportar iconos
       mensajeEl.textContent = mensaje;
       contenidoCarton.innerHTML = ''; // Limpiar contenido anterior
       cartonGanadorDiv.classList.remove('ganador'); // Quitar la clase para no tener doble estilo de pulso

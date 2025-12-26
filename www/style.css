@@ -1,15 +1,17 @@
 :root {
     /* Tema Oscuro */
-    --primary-color: #5c6bc0; /* Indigo más claro */
-    --primary-dark: #3f51b5;
-    --accent-color: #ffa726; /* Naranja más claro */
-    --accent-dark: #fb8c00;
-    --winner-color: #66bb6a; /* Verde más claro */
-    --winner-light: rgba(102, 187, 106, 0.15);
-    --text-color: #e0e0e0; /* Texto claro */
-    --bg-color: #121212; /* Fondo principal oscuro */
-    --card-bg: #1e1e1e; /* Fondo de tarjetas oscuro */
-    --border-color: #424242;
+    --primary-color: #6366f1; /* Indigo vibrante */
+    --primary-dark: #4338ca;
+    --accent-color: #f59e0b; /* Amber brillante */
+    --accent-dark: #b45309;
+    --winner-color: #10b981; /* Emerald */
+    --winner-light: rgba(16, 185, 129, 0.2);
+    --text-color: #f3f4f6;
+    --bg-color: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7); /* Semi-transparente */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
   
   * {
@@ -36,10 +38,13 @@
   }
   
   .container {
-    background: var(--card-bg);
+    background: rgba(15, 23, 42, 0.65); /* Efecto Vidrio */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     padding: 20px 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+    border: var(--glass-border);
     width: 100%;
     max-width: 900px;
     text-align: center;
@@ -51,7 +56,14 @@
   
   h1 {
     margin-bottom: 30px;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+  }
+
+  .app-header {
+    margin-bottom: 20px;
   }
   
   .controls-section {
@@ -72,10 +84,10 @@
   
   textarea, input[type="number"] {
     padding: 10px;
-    border: 2px solid var(--border-color);
-    background-color: #252525;
-    color: var(--text-color);
-    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border-radius: 12px;
     font-family: 'Poppins', sans-serif; /* Cambiado para soportar más grosores */
     font-size: 1.2rem; /* Aumentado */
     margin-top: 10px;
@@ -102,26 +114,34 @@
   textarea:focus, input[type="number"]:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 8px rgba(63, 81, 181, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
   }
   
   button {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
     transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   button:hover {
-    background-color: var(--primary-dark);
+    filter: brightness(1.1);
     transform: translateY(-2px);
   }
   
+  button i {
+    margin-right: 8px;
+  }
+
   .juego-botones {
     display: flex;
     flex-direction: column;
@@ -137,12 +157,13 @@
   }
 
   button.secondary-button {
-      background-color: #6c757d; /* Gris */
+      background: linear-gradient(135deg, #64748b, #475569);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       margin-top: 10px;
   }
   
   button.secondary-button:hover {
-      background-color: #5a6268;
+      filter: brightness(1.1);
   }
   
   #cartones {
@@ -157,16 +178,18 @@
     position: relative;
     display: inline-block;
     padding: 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    background-color: #fafafa;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: var(--glass-border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
   }
   
   .carton:hover {
       transform: scale(1.02);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      background: rgba(255, 255, 255, 0.08);
   }
   
   .carton.editando {
@@ -203,10 +226,11 @@
       background-color: #e74c3c;
       color: white;
       border: 2px solid white;
-      font-size: 16px;
-      line-height: 20px;
-      text-align: center;
+      font-size: 12px;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       opacity: 0.3;
       transition: opacity 0.3s, transform 0.3s;
       z-index: 10;
@@ -232,10 +256,11 @@
       background-color: #3498db;
       color: white;
       border: 2px solid white;
-      font-size: 14px;
-      line-height: 20px;
-      text-align: center;
+      font-size: 12px;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       opacity: 0.3;
       transition: opacity 0.3s, transform 0.3s;
       z-index: 10;
@@ -256,19 +281,21 @@
     align-items: center;
     width: 40px;
     height: 40px;
-    border: 1px solid #444;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     margin: 3px;
     border-radius: 50%;
     font-size: 1.1rem;
     font-weight: 700; /* Aumentado a negrita para mayor visibilidad */
-  color: #333; /* Color oscuro para los números para que se vean bien */
+    color: #e2e8f0; /* Color claro para contraste en fondo oscuro */
+    background: rgba(0, 0, 0, 0.2);
     transition: background-color 0.4s, color 0.4s, transform 0.2s;
   }
   
   .marcado {
     background-color: var(--accent-color);
     color: white;
-    border-color: var(--accent-dark);
+    border: none;
+    box-shadow: 0 0 10px var(--accent-color);
     transform: scale(1.1);
     font-weight: bold;
   }
@@ -283,6 +310,7 @@
       margin-top: 10px;
       font-size: 1.5rem;
       color: var(--winner-color);
+      text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
       animation: bounce 0.8s ease;
   }
   
@@ -305,7 +333,7 @@
   }
   
   .numero-grande {
-      background-color: var(--accent-color);
+      background: radial-gradient(circle at 30% 30%, var(--accent-color), var(--accent-dark));
       color: white;
       width: 100px;
       height: 100px;
@@ -316,8 +344,12 @@
       font-size: 3.5rem;
       font-weight: 700;
       margin: 10px auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      border: 4px solid var(--accent-dark);
+      box-shadow: 
+        inset -5px -5px 15px rgba(0,0,0,0.4),
+        inset 5px 5px 15px rgba(255,255,255,0.4),
+        0 10px 25px rgba(0,0,0,0.5);
+      border: none;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
   }
   
   .numeros-cantados-seccion {
@@ -325,7 +357,8 @@
   }
   
   #numerosCantadosContenedor {
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       padding: 20px;
       border-radius: 8px;
       min-height: 60px;
@@ -345,7 +378,7 @@
   .numero-cantado-item {
       width: 40px;
       height: 40px;
-      background-color: var(--primary-dark);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
       color: white;
       border-radius: 50%;
       display: inline-flex;
@@ -355,6 +388,7 @@
       font-size: 1.1rem;
       animation: pop-in 0.3s ease;
       position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
   }
 
   .remove-numero-btn {
@@ -411,21 +445,22 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.7); /* Fondo oscuro semitransparente */
+  background-color: rgba(0,0,0,0.85); /* Fondo más oscuro */
+  backdrop-filter: blur(5px);
   padding-top: 60px;
   animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
-  background-color: var(--card-bg);
+  background: rgba(30, 41, 59, 0.95);
   margin: 5% auto;
   padding: 30px 40px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255,255,255,0.1);
   width: 90%;
   max-width: 700px; /* Aumentado para que el cartón entre cómodamente */
-  border-radius: 12px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   position: relative;
   animation: slideIn 0.4s ease-out;
 }
@@ -488,6 +523,14 @@
         font-size: 0.9rem;
         margin: 2px;
     }
+}
+
+.app-footer {
+    margin-top: 40px;
+    color: #64748b;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 20px;
 }
 
   
