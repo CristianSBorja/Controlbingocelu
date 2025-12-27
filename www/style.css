@@ -447,13 +447,12 @@
   overflow: auto;
   background-color: rgba(0,0,0,0.85); /* Fondo más oscuro */
   backdrop-filter: blur(5px);
-  padding-top: 60px;
   animation: fadeIn 0.3s ease;
 }
 
 .modal-content {
   background: rgba(30, 41, 59, 0.95);
-  margin: 5% auto;
+  margin: auto;
   padding: 30px 40px;
   border: 1px solid rgba(255,255,255,0.1);
   width: 90%;

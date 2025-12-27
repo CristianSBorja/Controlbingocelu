@@ -65,6 +65,15 @@
     </div>
   </div>
 
+  <!-- Modal de Error -->
+  <div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="cerrarErrorModal()">&times;</span>
+      <h2 style="color: #e74c3c;"><i class="fas fa-exclamation-circle"></i> Error</h2>
+      <p id="errorMessage"></p>
+    </div>
+  </div>
+
   <footer class="app-footer">
     <p>Controlador de Bingo v1.0</p>
   </footer>
@@ -76,12 +85,32 @@
     let numerosCantados = [];
     let juegoTerminado = false;
 
+    // Cargar cartones guardados al iniciar
+    const cartonesGuardados = localStorage.getItem('bingoCartones');
+    if (cartonesGuardados) {
+        try {
+            cartones = JSON.parse(cartonesGuardados);
+            // Limpiar estados de partidas anteriores al recargar
+            cartones.forEach(c => {
+                delete c._lineaCantada;
+                delete c._bingoCantado;
+            });
+        } catch (e) {
+            console.error("Error al cargar cartones:", e);
+        }
+    }
+
+    function guardarCartones() {
+        localStorage.setItem('bingoCartones', JSON.stringify(cartones));
+    }
+
     function agregarCarton() {
       const input = document.getElementById('cartonInput').value.trim();
       if (!input) return;
 
       const filas = input.split("\n").map(linea => linea.trim().split(/\s+/).map(Number));
       cartones.push(filas);
+      guardarCartones();
       renderCartones();
       document.getElementById('cartonInput').value = '';
     }
@@ -89,6 +118,7 @@
     function eliminarCarton(idx) {
         if (confirm('¿Estás seguro de que quieres eliminar este cartón?')) {
             cartones.splice(idx, 1);
+            guardarCartones();
             renderCartones();
         }
     }
@@ -97,7 +127,19 @@
       const num = parseInt(document.getElementById('numeroCantado').value);
       const inputEl = document.getElementById('numeroCantado');
 
-      if (!num || numerosCantados.includes(num)) {
+      if (!num) {
+        inputEl.focus();
+        return;
+      }
+
+      if (num < 1 || num > 90) {
+        mostrarError("El número debe estar entre 1 y 90.");
+        inputEl.value = '';
+        inputEl.focus();
+        return;
+      }
+
+      if (numerosCantados.includes(num)) {
         inputEl.value = '';
         inputEl.focus();
         return;
@@ -256,6 +298,7 @@
         const textarea = cartonDiv.querySelector('.editor-carton');
         const filas = textarea.value.trim().split("\n").map(linea => linea.trim().split(/\s+/).map(Number));
         cartones[idx] = filas;
+        guardarCartones();
         renderCartones();
     }
 
@@ -270,17 +313,30 @@
       contenidoCarton.innerHTML = ''; // Limpiar contenido anterior
       cartonGanadorDiv.classList.remove('ganador'); // Quitar la clase para no tener doble estilo de pulso
       contenidoCarton.appendChild(cartonGanadorDiv);
-      modal.style.display = "block";
+      modal.style.display = "flex";
     }
 
     function cerrarModal() {
       document.getElementById('bingoModal').style.display = "none";
     }
 
+    function mostrarError(mensaje) {
+      document.getElementById('errorMessage').textContent = mensaje;
+      document.getElementById('errorModal').style.display = "flex";
+    }
+
+    function cerrarErrorModal() {
+      document.getElementById('errorModal').style.display = "none";
+    }
+
     window.onclick = function(event) {
       const modal = document.getElementById('bingoModal');
+      const errorModal = document.getElementById('errorModal');
       if (event.target == modal) {
         cerrarModal();
+      }
+      if (event.target == errorModal) {
+        cerrarErrorModal();
       }
     }
 
@@ -290,6 +346,9 @@
             cantarNumero();
         }
     });
+
+    // Renderizar cartones al cargar la página (si hay guardados)
+    renderCartones();
   </script>
 </body>
 </html>
